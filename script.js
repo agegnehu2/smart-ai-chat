@@ -1,35 +1,38 @@
+// Localization data
+const translations = {
+    'en': { 'reply': "Thanks." },
+    'am': { 'reply': "እናመሰግናለን።" },
+    'fr': { 'reply': "Merci." }
+};
+
+let currentLang = 'en';
+
+function setLanguage(lang) {
+    if (translations[lang]) currentLang = lang;
+}
+
 function sendMessage() {
-
-    const input = document.getElementById("message");
-    const chatBox = document.getElementById("chat-box");
-
+    const input = document.getElementById('message');
+    const chatBox = document.getElementById('chat-box');
     const userText = input.value.trim();
 
-    if(userText === "") return;
+    if (userText === "") return;
 
-    // User message
-    const userMessage = document.createElement("div");
-    userMessage.classList.add("user-message");
+    // Add user message
+    const userMessage = document.createElement('div');
+    userMessage.classList.add('user-message');
     userMessage.textContent = userText;
-
     chatBox.appendChild(userMessage);
 
-    // AI reply
+    // Add AI reply based on selected language
     setTimeout(() => {
-
-        const aiMessage = document.createElement("div");
-        aiMessage.classList.add("ai-message");
-
-        aiMessage.textContent =
-        "Thanks for your message: " + userText;
-
+        const aiMessage = document.createElement('div');
+        aiMessage.classList.add('ai-message');
+        aiMessage.textContent = translations[currentLang]['reply'];
         chatBox.appendChild(aiMessage);
-
         chatBox.scrollTop = chatBox.scrollHeight;
-
     }, 500);
 
     input.value = "";
-
     chatBox.scrollTop = chatBox.scrollHeight;
 }
