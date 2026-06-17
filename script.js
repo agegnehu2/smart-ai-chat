@@ -1,38 +1,38 @@
-// Localization data
-const translations = {
-    'en': { 'reply': "Thanks." },
-    'am': { 'reply': "እናመሰግናለን።" },
-    'fr': { 'reply': "Merci." }
+// Localization data for responses
+const responses = {
+    'en': {
+        'greeting': "Hello! How can I assist you today?",
+        'default': "That's interesting! Tell me more."
+    },
+    'am': {
+        'greeting': "ሰላም! ዛሬ እንዴት ልረዳህ እችላለሁ?",
+        'default': "ይህ አስደሳች ነው! እስኪ ተጨማሪ ንገረኝ።"
+    }
 };
 
-let currentLang = 'en';
+let currentLang = 'en'; // Default language set to English
 
 function setLanguage(lang) {
-    if (translations[lang]) currentLang = lang;
+    if (responses[lang]) currentLang = lang;
 }
 
-function sendMessage() {
-    const input = document.getElementById('message');
-    const chatBox = document.getElementById('chat-box');
-    const userText = input.value.trim();
+// Function to generate smarter AI responses
+function getAIResponse(userMessage) {
+    const lowerMessage = userMessage.toLowerCase();
+    
+    // Simple conversation rules
+    if (lowerMessage.includes("hi") || lowerMessage.includes("hello")) {
+        return responses[currentLang]['greeting'];
+    }
+    return responses[currentLang]['default'];
+}
 
-    if (userText === "") return;
-
-    // Add user message
-    const userMessage = document.createElement('div');
-    userMessage.classList.add('user-message');
-    userMessage.textContent = userText;
-    chatBox.appendChild(userMessage);
-
-    // Add AI reply based on selected language
-    setTimeout(() => {
-        const aiMessage = document.createElement('div');
-        aiMessage.classList.add('ai-message');
-        aiMessage.textContent = translations[currentLang]['reply'];
-        chatBox.appendChild(aiMessage);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }, 500);
-
-    input.value = "";
+// Use this inside your sendMessage function
+setTimeout(() => {
+    const aiMessage = document.createElement('div');
+    aiMessage.classList.add('ai-message');
+    // Calling the getAIResponse function
+    aiMessage.textContent = getAIResponse(userText); 
+    chatBox.appendChild(aiMessage);
     chatBox.scrollTop = chatBox.scrollHeight;
-}
+}, 500);
